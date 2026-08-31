@@ -1,9 +1,5 @@
 # Rancang Bangun Sistem Informasi Konseling Siswa-Guru BK Di SMAN DARUSSHOLAH SINGOJURUH
 
-**Kompatibel PHP 8.2+** (Laravel 11).
-
-Aplikasi Bimbingan Konseling sekolah **tanpa React** — pure Laravel + Blade + API Sanctum.
-
 ## Perbaikan Keamanan (revisi dosen)
 
 1. **Autentikasi penuh**
