@@ -39,59 +39,89 @@ php artisan test
 # atau
 vendor/bin/phpunit
 ```
+Penggunaan sebagai Siswa
 
-Cakupan test saat ini fokus ke poin-poin revisi keamanan/logika (lihat
-`tests/Feature/`):
+Siswa dapat mengajukan konseling, melihat status konseling, melakukan chat dengan Guru BK untuk konseling daring, serta menggunakan chatbot AI.
 
-- **Api/AdminEndpointAuthorizationTest** — token siswa tidak bisa mencapai
-  endpoint admin (`/api/akun/*`, `/api/siswa` create, `/api/riwayat-kelas`
-  delete)
-- **Api/KonselingAuthorizationTest** — siswa tidak bisa konfirmasi/laporan
-  konsultasinya sendiri; Guru A tidak bisa kelola konsultasi Guru B; Kepsek
-  hanya bisa lihat, bukan kelola
-- **Api/ChatOwnershipTest** — `konseling_id` wajib, tidak ada fallback
-  `session_id` arbitrary, siswa tidak bisa kirim pesan ke sesi orang lain
-- **Api/ScheduleConflictTest** — pengajuan konseling ditolak kalau bentrok
-  jadwal dengan Guru BK yang sama
-- **Web/KonselingWebOwnershipTest** — Guru A tidak bisa lihat detail
-  konsultasi Guru B lewat web; route hard-delete sudah tidak ada; batal
-  siswa memakai soft-cancel (baris tetap ada untuk audit)
-- **Web/JadwalRutinOverlapTest** — slot jadwal rutin yang overlap atau
-  `jam_selesai <= jam_mulai` ditolak
-- **Auth/LoginLockoutTest** — akun yang terkunci lewat percobaan gagal di
-  API juga ikut ditolak saat dicoba lewat web
+Mengajukan Konseling
+Login sebagai Siswa.
+Masuk ke menu Konseling.
+Pilih pengajuan konseling.
+Isi data konseling.
+Pilih metode konseling, yaitu daring atau luring.
+Pilih Guru BK sesuai kebutuhan.
+Kirim pengajuan.
+Melihat Status Konseling
 
-Test ini belum mencakup semua modul (chat real-time, import Excel,
-notifikasi, cetak laporan) — tambahkan test baru di folder yang sama
-seiring modul lain diverifikasi.
+Buka menu Status untuk melihat perkembangan pengajuan konseling.
 
-## Akun awal
+Chat Konseling
 
-`BkSeeder` sengaja **tidak membuat akun apa pun secara otomatis** (lihat isi
-`database/seeders/BkSeeder.php`) — ini untuk mencegah kredensial default yang
-dapat ditebak ikut ter-deploy ke lingkungan produksi.
+Untuk konseling daring yang telah dikonfirmasi:
 
-Untuk membuat akun pertama (misalnya Admin), buat secara manual lewat
-`php artisan tinker` dan **tentukan sendiri password yang kuat**, contoh:
+Buka detail konseling.
+Masuk ke ruang chat.
+Kirim pesan kepada Guru BK.
+Riwayat percakapan akan tersimpan pada sistem.
+Chatbot AI
 
-```bash
-php artisan tinker
-```
-```php
-\App\Models\Admin::create([
-    'username' => 'admin',
-    'password' => bcrypt('GANTI_DENGAN_PASSWORD_KUAT_ANDA'),
-    'nama'     => 'Administrator',
-]);
-```
+Chatbot dapat membantu siswa terkait enam kategori:
 
-Lakukan hal yang sama untuk model `GuruBk`, `Kepsek`, dan `Siswa` sesuai
-kebutuhan. **Jangan pernah menuliskan password asli di README, kode, atau
-file yang ikut dikirim/di-commit** — password demo yang pernah ada di versi
-sebelumnya (`admin123`, `guru123`, `kepsek123`) sudah dihapus dari
-dokumentasi ini dan sebaiknya tidak dipakai lagi jika sempat diterapkan di
-database mana pun.
+Akademik
+Sosial
+Pribadi
+Karir
+Bullying
+Keluarga
 
+Chatbot merupakan sistem pendukung dan tidak menggantikan peran Guru BK.
+
+Penggunaan sebagai Guru BK
+
+Guru BK dapat:
+
+Melihat daftar pengajuan konseling.
+Mengonfirmasi konseling.
+Mencatat konseling luring atau walk-in.
+Mengisi laporan hasil konseling.
+Berkomunikasi melalui chat dengan siswa.
+Mengelola data siswa.
+Melakukan import data siswa.
+Mengelola informasi BK.
+Mengatur jadwal rutin.
+Melihat notifikasi.
+Mencetak laporan.
+Konseling Walk-In
+
+Untuk mencatat siswa yang datang langsung:
+
+Login sebagai Guru BK.
+Buka menu Konseling.
+Pilih Walk-In.
+Pilih data siswa.
+Isi informasi konseling.
+Simpan data.
+Penggunaan sebagai Kepala Sekolah
+
+Kepala Sekolah digunakan untuk melakukan monitoring terhadap layanan BK.
+
+Fitur yang tersedia antara lain:
+
+Dashboard.
+Rekap Guru BK.
+Monitoring data konseling.
+Melihat detail konseling sesuai hak akses.
+Statistik.
+Informasi BK.
+Penggunaan sebagai Admin
+
+Admin digunakan untuk mengelola akun dan administrasi sistem.
+
+Fitur utama:
+
+Dashboard Admin.
+Manajemen akun Guru BK.
+Manajemen akun Kepala Sekolah.
 ## API Auth
 
 ```
